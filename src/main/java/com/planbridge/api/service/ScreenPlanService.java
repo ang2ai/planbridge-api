@@ -121,6 +121,11 @@ public class ScreenPlanService {
         );
     }
 
+    // 기획서 분석(NEW_PLAN/CONFLICT_CHECK/GENERATE_SPEC) 진행 상태 조회 (프론트 폴링용).
+    public AnalysisQueueResponse getAnalysisStatus(String planId, String analysisType) {
+        return analysisQueueService.getLatestStatus(planId, analysisType);
+    }
+
     @Transactional
     public void delete(String planId) {
         PbScreenPlan plan = screenPlanRepository.findById(planId)

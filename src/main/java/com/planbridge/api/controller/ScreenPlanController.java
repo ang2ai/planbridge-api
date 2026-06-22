@@ -87,6 +87,14 @@ public class ScreenPlanController {
                 screenPlanService.requestAnalysis(planId, analysisType)));
     }
 
+    @GetMapping("/{planId}/status")
+    public ResponseEntity<ApiResponse<AnalysisQueueResponse>> status(
+            @PathVariable String planId,
+            @RequestParam(required = false, defaultValue = "NEW_PLAN") String analysisType) {
+        return ResponseEntity.ok(ApiResponse.ok(
+                screenPlanService.getAnalysisStatus(planId, analysisType)));
+    }
+
     // -----------------------------------------------------------------------
     // GET /api/plans/{id}/export
     // -----------------------------------------------------------------------

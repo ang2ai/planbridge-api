@@ -30,6 +30,14 @@ public class AnalysisQueueService {
                 .collect(Collectors.toList());
     }
 
+    // 특정 요청(requestId)+분석유형의 가장 최근 큐 상태를 반환 (폴링용).
+    public AnalysisQueueResponse getLatestStatus(String requestId, String analysisType) {
+        return analysisQueueRepository
+                .findFirstByRequestIdAndAnalysisTypeOrderByCreatedAtDesc(requestId, analysisType)
+                .map(AnalysisQueueResponse::from)
+                .orElseThrow(() -> new ResourceNotFoundException("AnalysisQueue for request", requestId));
+    }
+
     public List<AnalysisQueueResponse> findQueued() {
         return analysisQueueRepository.findByStatusOrderByCreatedAtAsc("QUEUED")
                 .stream()
